@@ -297,35 +297,6 @@ input, select {
     align-items: flex-end;
 }
 
-/* Responsive design */
-@media screen and (max-width: 600px) {
-    .container {
-        width: 100%;
-        padding: 10px;
-    }
-
-    input, select {
-        width: 100%;
-    }
-
-    .qr-code-container img {
-        width: 40px;
-        height: 40px;
-    }
-
-    .input-group {
-        flex-direction: column;
-        gap: 5px;
-    }
-
-    .progress-bar {
-        height: 20px;
-    }
-
-    .progress-text {
-        font-size: 14px;
-    }
-}
 
 .disclaimer {
     font-size: 12px; /* Small blue font */
@@ -345,4 +316,23 @@ input, select {
 .share-button img {
     width: 30px;
     height: 30px;
+}
+
+/* Media Queries for Responsive Design */
+@media (min-width: 600px) {
+    .container {
+        width: 600px; /* Fixed width for larger screens */
+    }
+
+    .input-group {
+        flex-wrap: nowrap; /* No wrapping on larger screens */
+    }
+
+    .input-box {
+        width: auto; /* Default width for larger screens */
+    }
+
+    input, select {
+        width: 150px; /* Fixed width for larger screens */
+    }
 }
