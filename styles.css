@@ -7,6 +7,7 @@ body {
     align-items: center;
     height: 100vh;
     margin: 0;
+    overflow: hidden; /* Prevent body scroll */
 }
 
 .container {
@@ -53,7 +54,7 @@ h1 {
     flex-direction: column;
     align-items: center;
     gap: 5px;
-    flex: 1 1 100%; /* Ensure input boxes take full width on small screens */
+    flex: 1 1 calc(50% - 10px); /* Ensure input boxes take half the width on small screens */
 }
 
 label {
