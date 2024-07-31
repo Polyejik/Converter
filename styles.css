@@ -133,35 +133,7 @@ input, select {
     justify-content: flex-end;
     align-items: flex-end;
 }
-/* Responsive design */
-@media screen and (max-width: 600px) {
-    .container {
-        width: 100%;
-        padding: 10px;
-    }
 
-    input, select {
-        width: 100%;
-    }
-
-    .qr-code-container img {
-        width: 40px;
-        height: 40px;
-    }
-
-    .input-group {
-        flex-direction: column;
-        gap: 5px;
-    }
-
-    .progress-bar {
-        height: 20px;
-    }
-
-    .progress-text {
-        font-size: 14px;
-    }
-}
 body {
     font-family: Arial, sans-serif;
     background-color: #ADD8E6; /* Light blue background */
