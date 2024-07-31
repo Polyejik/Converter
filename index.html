@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+    <title>Cognitive Converter</title>
+</head>
+<body>
+    <div class="container">
+        <h1>Cognitive Converter</h1>
+        <div class="qr-code-container">
+            <a href="https://www.linkedin.com/in/alexander-kutuzov-8b541041/" target="_blank">
+                <img src="your_qr_code.png" alt="LinkedIn QR Code">
+            </a>
+        </div>
+        <div class="input-group">
+            <div class="input-box">
+                <label for="bblValue">Barrels</label>
+                <input type="text" id="bblValue" placeholder="Enter barrels">
+            </div>
+            <span>=</span>
+            <div class="input-box">
+                <label for="m3Value">m³</label>
+                <input type="text" id="m3Value" placeholder="Enter m³">
+            </div>
+        </div>
+        <div class="input-group">
+            <div class="input-box">
+                <label for="densitySelect">Oil type</label>
+                <select id="densitySelect">
+                    <option value="0.834">Brent</option>
+                    <option value="0.865">Urals</option>
+                    <option value="0.825">WTI</option>
+                    <option value="custom">Custom</option>
+                </select>
+            </div>
+            <div class="input-box">
+                <label for="densityValue">Density, g/m³</label>
+                <input type="text" id="densityValue" placeholder="Enter density">
+            </div>
+            <div class="input-box">
+                <label for="tonValue">Ton</label>
+                <input type="text" id="tonValue" placeholder="Enter ton">
+            </div>
+        </div>
+        <div id="top-separator" class="result-separator"></div>
+        <div id="result" class="result"></div>
+        <div id="bottom-separator" class="result-separator"></div>
+        <div class="input-group">
+            <div class="input-box">
+                <label for="oilPrice">Oil Price, $/bbl</label>
+                <input type="text" id="oilPrice" placeholder="Oil Price">
+            </div>
+            <div class="input-box">
+                <label for="value">Value, K $</label>
+                <input type="text" id="value" placeholder="Value" readonly>
+            </div>
+            <div class="input-box">
+                <label for="goldValue">Gold, kg</label>
+                <input type="text" id="goldValue" placeholder="Gold Value" readonly>
+            </div>
+        </div>
+        <div id="scaleContainer" class="scale-container" style="display: none;">
+            <div class="scale-text">Feel the Scale</div>
+            <div class="progress-bar">
+                <div id="progress" class="progress"></div>
+                <div id="progressText" class="progress-text"></div>
+            </div>
+            <div class="lake-icon">
+                <img src="gold_icon.png" alt="World Oil Consumption" width="30">
+            </div>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
