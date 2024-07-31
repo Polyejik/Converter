@@ -133,3 +133,216 @@ input, select {
     justify-content: flex-end;
     align-items: flex-end;
 }
+/* Responsive design */
+@media screen and (max-width: 600px) {
+    .container {
+        width: 100%;
+        padding: 10px;
+    }
+
+    input, select {
+        width: 100%;
+    }
+
+    .qr-code-container img {
+        width: 40px;
+        height: 40px;
+    }
+
+    .input-group {
+        flex-direction: column;
+        gap: 5px;
+    }
+
+    .progress-bar {
+        height: 20px;
+    }
+
+    .progress-text {
+        font-size: 14px;
+    }
+}
+body {
+    font-family: Arial, sans-serif;
+    background-color: #ADD8E6; /* Light blue background */
+    color: #ffffff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+
+.container {
+    background: #4A4A4A; /* Dark grey background */
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+    text-align: center;
+    width: 600px; /* Fixed width for better alignment */
+    position: relative; /* Ensure relative positioning for absolute child elements */
+}
+
+h1 {
+    margin-bottom: 20px;
+    color: #00d4ff;
+    position: relative;
+}
+
+.qr-code-container {
+    position: absolute;
+    top: 30px;
+    right: 20px;
+}
+
+.qr-code-container img {
+    width: 50px; /* Adjust size to be 30% smaller */
+    height: 50px; /* Adjust size to be 30% smaller */
+}
+
+.input-group {
+    display: flex;
+    justify-content: space-between; /* Adjusted for better alignment */
+    align-items: center;
+    margin-bottom: 20px;
+    gap: 10px;
+}
+
+.input-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+}
+
+label {
+    font-size: 20px;
+    color: #00d4ff;
+    margin-bottom: 5px; /* Ensure labels are above inputs */
+}
+
+input, select {
+    width: 150px; /* Reverted width for textboxes */
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    font-size: 20px;
+    text-align: center;
+    height: 45px; /* Ensure consistent height */
+}
+
+.result-separator {
+    border-top: 1px solid #ffffff;
+    margin: 20px 0; /* Added margin for spacing */
+    display: none; /* Hide by default */
+}
+
+.result {
+    font-size: 18px;
+    color: #00d4ff;
+    margin-top: 20px; /* Added margin-top for spacing */
+}
+
+.scale-container {
+    text-align: center;
+    margin-top: 20px;
+    position: relative;
+}
+
+.scale-text {
+    font-size: 18px;
+    color: #00d4ff;
+    margin-bottom: 10px;
+}
+
+.progress-bar {
+    display: flex;
+    align-items: center;
+    height: 30px;
+    background-color: #ddd;
+    border-radius: 15px;
+    overflow: hidden;
+    position: relative;
+    margin-bottom: 20px;
+}
+
+.progress {
+    height: 100%;
+    background-color: #00d4ff;
+    width: 0;
+    transition: width 0.3s ease;
+}
+
+.progress-text {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    color: #000;
+    white-space: nowrap; /* Ensure text doesn't wrap */
+}
+
+.gold-icon {
+    position: absolute;
+    right: -20px; /* Adjusted for better placement */
+    top: -30px; /* Adjusted for better placement */
+    width: 5px; /* Fixed size */
+    height: 5px; /* Fixed size */
+}
+
+.icon-container {
+    position: relative;
+    width: 100%; /* Ensure the container spans the full width */
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-end;
+}
+
+/* Responsive design */
+@media screen and (max-width: 600px) {
+    .container {
+        width: 100%;
+        padding: 10px;
+    }
+
+    input, select {
+        width: 100%;
+    }
+
+    .qr-code-container img {
+        width: 40px;
+        height: 40px;
+    }
+
+    .input-group {
+        flex-direction: column;
+        gap: 5px;
+    }
+
+    .progress-bar {
+        height: 20px;
+    }
+
+    .progress-text {
+        font-size: 14px;
+    }
+}
+
+.disclaimer {
+    font-size: 12px; /* Small blue font */
+    color: #00d4ff;
+    text-align: center;
+    margin-top: 10px;
+}
+
+/* Add these styles to ensure proper placement and appearance */
+.share-buttons {
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+
+.share-button img {
+    width: 30px;
+    height: 30px;
+}
