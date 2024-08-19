@@ -239,11 +239,14 @@ function updateProgressBar(ton) {
     let progressBar = document.getElementById('progress');
     let progressText = document.getElementById('progressText');
     let scaleContainer = document.getElementById('scaleContainer');
+    let countryInfo = document.getElementById('countryInfo');
 
     if (progress > 0) {
         scaleContainer.style.display = 'block';
+        countryInfo.style.display = 'block';
     } else {
         scaleContainer.style.display = 'none';
+        countryInfo.style.display = 'none';
     }
 
     if (progress > 100) {
@@ -254,7 +257,7 @@ function updateProgressBar(ton) {
         progressBar.style.width = `${progress}%`;
         progressText.innerText = `${progress.toFixed(1)}% of ${closestCountry.country} Annual Oil Consumption`;
     }
-
+    updateCountryInfo(closestCountry.country);
     adjustFontSize(progressText);
 }
 
@@ -328,4 +331,459 @@ async function fetchOilPrices() {
             document.getElementById('oilPrice').value = oilPrices.wti;
         }
     });
+}
+
+// Function to update country information
+function updateCountryInfo(country) {
+    const countryData = {
+        "USA": {
+            location: "North America",
+            population: "~332 million",
+            gdp: "~$70,000",
+            import: "Machinery and vehicles",
+            export: "Machinery and electronics"
+        },
+        "China": {
+            location: "East Asia",
+            population: "~1.4 billion",
+            gdp: "~$12,500",
+            import: "Integrated circuits and machinery",
+            export: "Electronics"
+        },
+        "India": {
+            location: "South Asia",
+            population: "~1.4 billion",
+            gdp: "~$2,200",
+            import: "Crude oil",
+            export: "Petroleum products and textiles"
+        },
+        "Japan": {
+            location: "East Asia",
+            population: "~125 million",
+            gdp: "~$40,000",
+            import: "Petroleum and natural gas",
+            export: "Vehicles and electronics"
+        },
+        "Russia": {
+            location: "Eastern Europe and Northern Asia",
+            population: "~146 million",
+            gdp: "~$12,000",
+            import: "Machinery and equipment",
+            export: "Oil and gas"
+        },
+        "Saudi Arabia": {
+            location: "Middle East, Arabian Peninsula",
+            population: "~35 million",
+            gdp: "~$24,000",
+            import: "Machinery and vehicles",
+            export: "Crude oil"
+        },
+        "Brazil": {
+            location: "South America",
+            population: "~214 million",
+            gdp: "~$8,000",
+            import: "Machinery and electrical equipment",
+            export: "Soybeans and iron ore"
+        },
+        "South Korea": {
+            location: "East Asia",
+            population: "~52 million",
+            gdp: "~$34,000",
+            import: "Crude oil and semiconductors",
+            export: "Electronics and vehicles"
+        },
+        "Germany": {
+            location: "Central Europe",
+            population: "~83 million",
+            gdp: "~$50,000",
+            import: "Machinery and electronics",
+            export: "Vehicles and machinery"
+        },
+        "Canada": {
+            location: "North America",
+            population: "~38 million",
+            gdp: "~$52,000",
+            import: "Machinery and vehicles",
+            export: "Crude oil and vehicles"
+        },
+        "Iran": {
+            location: "Middle East",
+            population: "~85 million",
+            gdp: "~$5,000",
+            import: "Machinery and food products",
+            export: "Crude oil"
+        },
+        "Mexico": {
+            location: "North America",
+            population: "~126 million",
+            gdp: "~$9,000",
+            import: "Machinery and electrical equipment",
+            export: "Vehicles and electronics"
+        },
+        "France": {
+            location: "Western Europe",
+            population: "~67 million",
+            gdp: "~$45,000",
+            import: "Machinery and vehicles",
+            export: "Aircraft and machinery"
+        },
+        "Indonesia": {
+            location: "Southeast Asia",
+            population: "~273 million",
+            gdp: "~$4,000",
+            import: "Machinery and chemicals",
+            export: "Palm oil and coal"
+        },
+        "UK": {
+            location: "Western Europe",
+            population: "~67 million",
+            gdp: "~$46,000",
+            import: "Machinery and vehicles",
+            export: "Machinery and vehicles"
+        },
+        "Singapore": {
+            location: "Southeast Asia",
+            population: "~5.7 million",
+            gdp: "~$60,000",
+            import: "Machinery and electronics",
+            export: "Electronics and chemicals"
+        },
+        "Italy": {
+            location: "Southern Europe",
+            population: "~60 million",
+            gdp: "~$35,000",
+            import: "Machinery and chemicals",
+            export: "Machinery and vehicles"
+        },
+        "Spain": {
+            location: "Southern Europe",
+            population: "~47 million",
+            gdp: "~$30,000",
+            import: "Machinery and vehicles",
+            export: "Vehicles and machinery"
+        },
+        "Thailand": {
+            location: "Southeast Asia",
+            population: "~70 million",
+            gdp: "~$7,000",
+            import: "Machinery and chemicals",
+            export: "Electronics and vehicles"
+        },
+        "Australia": {
+            location: "Oceania",
+            population: "~26 million",
+            gdp: "~$55,000",
+            import: "Machinery and vehicles",
+            export: "Iron ore and coal"
+        },
+        "Taiwan": {
+            location: "East Asia",
+            population: "~23 million",
+            gdp: "~$33,000",
+            import: "Machinery and electrical equipment",
+            export: "Electronics and machinery"
+        },
+        "UAE": {
+            location: "Middle East, Arabian Peninsula",
+            population: "~10 million",
+            gdp: "~$43,000",
+            import: "Machinery and vehicles",
+            export: "Crude oil"
+        },
+        "Egypt": {
+            location: "North Africa",
+            population: "~104 million",
+            gdp: "~$3,500",
+            import: "Machinery and food products",
+            export: "Crude oil and textiles"
+        },
+        "Netherlands": {
+            location: "Western Europe",
+            population: "~17 million",
+            gdp: "~$58,000",
+            import: "Machinery and electronics",
+            export: "Machinery and chemicals"
+        },
+        "Turkey": {
+            location: "Southeastern Europe and Western Asia",
+            population: "~85 million",
+            gdp: "~$9,000",
+            import: "Machinery and chemicals",
+            export: "Vehicles and machinery"
+        },
+        "Malaysia": {
+            location: "Southeast Asia",
+            population: "~33 million",
+            gdp: "~$11,000",
+            import: "Machinery and chemicals",
+            export: "Electronics and palm oil"
+        },
+        "Venezuela": {
+            location: "Northern South America",
+            population: "~29 million",
+            gdp: "~$3,000",
+            import: "Machinery and food products",
+            export: "Crude oil"
+        },
+        "Argentina": {
+            location: "Southern South America",
+            population: "~45 million",
+            gdp: "~$10,000",
+            import: "Machinery and vehicles",
+            export: "Soybeans and vehicles"
+        },
+        "South Africa": {
+            location: "Southern Africa",
+            population: "~60 million",
+            gdp: "~$6,000",
+            import: "Machinery and chemicals",
+            export: "Minerals and vehicles"
+        },
+        "Belgium": {
+            location: "Western Europe",
+            population: "~11.5 million",
+            gdp: "~$50,000",
+            import: "Machinery and vehicles",
+            export: "Machinery and chemicals"
+        },
+        "Pakistan": {
+            location: "South Asia",
+            population: "~240 million",
+            gdp: "~$1,300",
+            import: "Machinery and oil",
+            export: "Textiles and rice"
+        },
+        "Poland": {
+            location: "Central Europe",
+            population: "~38 million",
+            gdp: "~$19,000",
+            import: "Machinery and vehicles",
+            export: "Machinery and vehicles"
+        },
+        "Kuwait": {
+            location: "Middle East, Arabian Peninsula",
+            population: "~4.3 million",
+            gdp: "~$28,000",
+            import: "Machinery and vehicles",
+            export: "Crude oil"
+        },
+        "Vietnam": {
+            location: "Southeast Asia",
+            population: "~98 million",
+            gdp: "~$4,000",
+            import: "Machinery and electronics",
+            export: "Electronics and textiles"
+        },
+        "Algeria": {
+            location: "North Africa",
+            population: "~44 million",
+            gdp: "~$4,000",
+            import: "Machinery and food products",
+            export: "Crude oil and natural gas"
+        },
+        "Philippines": {
+            location: "Southeast Asia",
+            population: "~113 million",
+            gdp: "~$3,500",
+            import: "Machinery and transport equipment",
+            export: "Electronics and semiconductors"
+        },
+        "Hong Kong": {
+            location: "East Asia",
+            population: "~7.5 million",
+            gdp: "~$49,000",
+            import: "Machinery and transport equipment",
+            export: "Electronics and machinery"
+        },
+        "Chile": {
+            location: "South America",
+            population: "~19 million",
+            gdp: "~$15,000",
+            import: "Machinery and vehicles",
+            export: "Copper and fruit"
+        },
+        "Colombia": {
+            location: "Northwestern South America",
+            population: "~52 million",
+            gdp: "~$6,500",
+            import: "Machinery and transportation equipment",
+            export: "Crude oil"
+        },
+        "Sweden": {
+            location: "Northern Europe",
+            population: "~10.5 million",
+            gdp: "~$54,000",
+            import: "Machinery and vehicles",
+            export: "Machinery and vehicles"
+        },
+        "Kazakhstan": {
+            location: "Central Asia",
+            population: "~19 million",
+            gdp: "~$10,000",
+            import: "Machinery and vehicles",
+            export: "Oil and metals"
+        },
+        "Austria": {
+            location: "Central Europe",
+            population: "~9 million",
+            gdp: "~$52,000",
+            import: "Machinery and vehicles",
+            export: "Machinery and vehicles"
+        },
+        "Ecuador": {
+            location: "Northwestern South America",
+            population: "~18 million",
+            gdp: "~$6,000",
+            import: "Machinery and vehicles",
+            export: "Crude oil and bananas"
+        },
+        "Portugal": {
+            location: "Southern Europe",
+            population: "~10 million",
+            gdp: "~$26,000",
+            import: "Machinery and vehicles",
+            export: "Machinery and vehicles"
+        },
+        "Peru": {
+            location: "Western South America",
+            population: "~34 million",
+            gdp: "~$6,000",
+            import: "Machinery and vehicles",
+            export: "Copper and gold"
+        },
+        "Switzerland": {
+            location: "Central Europe",
+            population: "~8.7 million",
+            gdp: "~$85,000",
+            import: "Machinery and vehicles",
+            export: "Pharmaceuticals and machinery"
+        },
+        "Romania": {
+            location: "Southeastern Europe",
+            population: "~19 million",
+            gdp: "~$15,000",
+            import: "Machinery and vehicles",
+            export: "Machinery and vehicles"
+        },
+        "Ukraine": {
+            location: "Eastern Europe",
+            population: "~39 million",
+            gdp: "~$3,000",
+            import: "Machinery and vehicles",
+            export: "Grain and metals"
+        },
+        "Finland": {
+            location: "Northern Europe",
+            population: "~5.5 million",
+            gdp: "~$53,000",
+            import: "Petroleum products",
+            export: "Machinery and equipment"
+        },
+        "Denmark": {
+            location: "Northern Europe",
+            population: "~5.8 million",
+            gdp: "~$65,000",
+            import: "Machinery and vehicles",
+            export: "Machinery and pharmaceuticals"
+        },
+        "New Zealand": {
+            location: "Oceania",
+            population: "~5.1 million",
+            gdp: "~$47,000",
+            import: "Machinery and vehicles",
+            export: "Dairy products and meat"
+        },
+        "Belarus": {
+            location: "Eastern Europe",
+            population: "~9.3 million",
+            gdp: "~$6,000",
+            import: "Machinery and vehicles",
+            export: "Machinery and vehicles"
+        },
+        "Hungary": {
+            location: "Central Europe",
+            population: "~9.6 million",
+            gdp: "~$18,000",
+            import: "Machinery and vehicles",
+            export: "Machinery and vehicles"
+        },
+        "Ireland": {
+            location: "Western Europe",
+            population: "~5 million",
+            gdp: "~$110,000",
+            import: "Machinery and chemicals",
+            export: "Pharmaceuticals and machinery"
+        },
+        "Turkmenistan": {
+            location: "Central Asia",
+            population: "~6.2 million",
+            gdp: "~$7,000",
+            import: "Machinery and food products",
+            export: "Natural gas"
+        },
+        "Bangladesh": {
+            location: "South Asia",
+            population: "~170 million",
+            gdp: "~$2,500",
+            import: "Machinery and electrical equipment",
+            export: "Textiles and garments"
+        },
+        "Azerbaijan": {
+            location: "Caucasus, Eurasia",
+            population: "~10 million",
+            gdp: "~$5,000",
+            import: "Machinery and vehicles",
+            export: "Crude oil and natural gas"
+        },
+        "Bulgaria": {
+            location: "Southeastern Europe, Balkan Peninsula",
+            population: "~6.8 million",
+            gdp: "~$12,000",
+            import: "Machinery and equipment",
+            export: "Refined petroleum and clothing"
+        },
+        "Slovakia": {
+            location: "Central Europe",
+            population: "~5.4 million",
+            gdp: "~$20,000",
+            import: "Machinery and vehicles",
+            export: "Vehicles and machinery"
+        },
+        "Uzbekistan": {
+            location: "Central Asia",
+            population: "~35 million",
+            gdp: "~$2,000",
+            import: "Machinery and vehicles",
+            export: "Cotton and natural gas"
+        },
+        "Lithuania": {
+            location: "Northern Europe, Baltic region",
+            population: "~2.8 million",
+            gdp: "~$25,000",
+            import: "Machinery and vehicles",
+            export: "Machinery and refined petroleum"
+        },
+        "Trinidad and Tobago": {
+            location: "Caribbean, near South America",
+            population: "~1.4 million",
+            gdp: "~$15,000",
+            import: "Machinery and food products",
+            export: "Natural gas and petroleum products"
+        }
+    };
+
+    if (country && countryData[country]) {
+        document.getElementById('location').textContent = countryData[country].location;
+        document.getElementById('population').textContent = countryData[country].population;
+        document.getElementById('gdp').textContent = countryData[country].gdp;
+        document.getElementById('import').textContent = countryData[country].import;
+        document.getElementById('export').textContent = countryData[country].export;
+    } else {
+        // Clear fields if no data available
+        document.getElementById('location').textContent = "";
+        document.getElementById('population').textContent = "";
+        document.getElementById('gdp').textContent = "";
+        document.getElementById('import').textContent = "";
+        document.getElementById('export').textContent = "";
+    }
 }
