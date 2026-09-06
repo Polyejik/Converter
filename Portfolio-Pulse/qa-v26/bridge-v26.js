@@ -1,0 +1,7 @@
+window.PPSecretaryBridge={
+ projects:s,role:a,lang:e,date:Y,selectedProject:f,team:ce,
+ user:ce.find(z=>z.name===wa[a]),defaultCoordinator:ce.find(z=>z.name===wa.coordinator)||ce[0],health:ie,cashRisk:Xe,
+ open:(id)=>{const project=s.find(z=>z.id===id);if(project)u(project)},
+ createDraft:(fields)=>{const user=ce.find(z=>z.name===wa.coordinator)||ce[0];const p=jr({client:fields.client,name:fields.name,country:fields.country,coordinatorId:user.id,start:fields.start,contractAmount:fields.amount,lang:e});const token=crypto.randomUUID();p.id='project-secretary-'+token;p.code='PP-'+String(Math.max(1000,...s.map(z=>Number(z.code.replace(/\D/g,''))||0))+1);p.stages=p.stages.map((stage,index)=>({...stage,id:p.id+'-s'+index,assignments:[]}));p.milestones=p.milestones.map((milestone,index)=>({...milestone,id:p.id+'-m'+index}));p.secretaryStatus='active';return p},
+ commit:(id,expected,next)=>{const b=window.PPSecretaryBridge,current=b.projects.find(z=>z.id===id);if(expected===null?!!current:JSON.stringify(current)!==expected)return false;let stored;try{stored=JSON.parse(localStorage.getItem('portfolio-pulse-v4'))}catch{return false}if(stored?.projects&&JSON.stringify(stored.projects)!==JSON.stringify(b.projects))return false;const list=expected===null?[...b.projects,next]:b.projects.map(z=>z.id===id?next:z);try{localStorage.setItem('portfolio-pulse-v4',JSON.stringify({projects:list,lang:b.lang,role:b.role}))}catch{return false}b.projects=list;c(list);if(next.archived&&f===id)m(void 0);return true}
+};
