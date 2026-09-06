@@ -32,4 +32,5 @@ test('stage completion never closes entire project',()=>{assert.equal(C.parse('P
 test('stale context cannot resolve ambiguity',()=>assert(C.parse('Удали PP-001 PP-002',s,{selected:'p1'}).question));
 test('explicit user selection resolves ambiguity',()=>assert.equal(C.parse('Удали PP-001 PP-002',s,{selected:'p1',confirmedProject:'p2'}).projectId,'p2'));
 test('unknown code never falls back to context',()=>assert(C.parse('Удали PP-999',s,{selected:'p1'}).question));
+test('all English CEO starter phrases',()=>{for(const [text,kind]of [['What needs my decision today?','brief'],['Which payments are at risk?','cash'],['Show team capacity','capacity'],['What changed in projects?','changes']])assert.equal(C.parse(text,{...s,lang:'en'}).kind,kind)});
 console.log(`${n} checks passed`);
