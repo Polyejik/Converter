@@ -25,7 +25,7 @@ function route(text,pending){const t=clean(text);
  if(/^(отмена|отмени|cancel|undo|назад|верни назад)[.! ]*$/.test(t))return 'undo';
  if(/(?:не\s+)(?:удал|архив|закры|созд|заверш|меня)|do not|don't/.test(t))return 'note';
  if(/если|\bif\b|возмож/.test(t)&&/удал|архив|закр|заверш|приостанов|delete|archive|complete|close/.test(t))return 'note';
- if(/созда[йтьм]|создать|добав[ьи]|новый проект|create.*project|add.*project/.test(t))return 'create';
+ if(/(?:созда[йтьм]|создать|добав[ьи]).*проект|новый проект|create.*project|add.*project/.test(t))return 'create';
  if(/восстанов|верни.*(?:проект|архив)|restore/.test(t))return 'restore';
  if(/удали|удалить|убери.*проект|архивиру|delete|archive/.test(t))return 'archive';
  if(/что измен|изменения|с последн|what.*chang|recent changes/.test(t))return 'changes';
@@ -33,16 +33,16 @@ function route(text,pending){const t=clean(text);
  if(/кто свобод|кого.*подключ|где.*люд|не хватает людей|загрузк|ресурс|capacity|overload|available.*(?:people|engineer)|staffing/.test(t)&&!/нужно|нужны|need|увелич|добав/.test(t))return 'capacity';
  if(/(?:покажи|какие|сколько|где|show|which|how much).*(?:платеж|поступлен|ден[ье]г|cash|payment|receiv)|деньги под риском|cash at risk/.test(t))return 'cash';
  if(/(?:что|какие).*(?:решени|важн|внимани)|приоритет|бриф|сводк|утренн|brief|priorit|decisions|attention|risk.*portfolio/.test(t))return 'brief';
- if(/(?:заверш[еёе]н|заверши|закрой|закрыть|completed|complete project|close project|close.*job)/.test(t)&&!/(если|if |потом|later)/.test(t))return 'status';
+ if(/(?:заверш[еёе]н|заверши|закрой|закрыть|completed|complete project|close project|close.*job)/.test(t)&&!/(если|if |потом|later)/.test(t)&&(!/этап|оценк|геолог|отчет|stage|assessment|geology|report/.test(t)||/заверши.*проект|закрой.*проект|проект\s+заверш|complete project|project completed|close project/.test(t)))return 'status';
  if(/статус|приостанов|постав.*пауз|в работе|возобнов|status|on hold|resume|ждем|ожидаем|waiting|await/.test(t))return 'status';
  if(/открой|открыть|покажи проект|open project/.test(t))return 'open';
- if(pending?.kind==='create'&&pending.missing?.length)return 'create';return 'note';
+ if(pending?.kind==='create'&&pending.question)return 'create';return 'note';
 }
 function statusOf(text){const t=clean(text);if(/заверш|закры|completed|complete|close/.test(t))return 'completed';if(/приостанов|пауз|on hold|paused/.test(t))return 'paused';if(/ждем|ожида|waiting|await/.test(t))return 'waiting';if(/в работе|возобнов|актив|in progress|active|resume/.test(t))return 'active';return ''}
 function operationalPatch(p,status,date){
  const patch={secretaryStatus:status,lastUpdated:date};
  if(status==='completed'){patch.stages=p.stages.map(s=>({...s,status:'done',actualEnd:s.actualEnd||date}));patch.currentStage=Math.max(0,p.stages.length-1)}
- if(status==='active'&&p.secretaryStatus==='completed')return null;
+ if(status!=='completed'&&p.secretaryStatus==='completed')return null;
  return patch;
 }
 function facts(text,en=false){const t=clean(text),pick=(r,e)=>en?e:r;const rows=[],tasks=[];let conditional=/если|if\b|возмож|may\b/.test(t);
@@ -62,6 +62,7 @@ function parse(text,state,context={}){
  }
  if(['brief','cash','capacity','changes','undo'].includes(kind))return result;
  const m=match(text,state.projects);let p=m.project;
+ if(!p&&context.confirmedProject)p=state.projects.find(p=>p.id===context.confirmedProject);
  if(m.reason==='none'&&context.selected)p=state.projects.find(p=>p.id===context.selected);
  if(!p)return {...result,question:pick(m.reason==='multiple'?'Упомянуто несколько проектов. Выберите один для этого действия.':'Какой проект? Укажите код PP-… или выберите его ниже.',m.reason==='multiple'?'Several projects match. Select one for this action.':'Which project? Specify PP-… or select it below.'),candidates:m.candidates};
  result.projectId=p.id;result.project=p;result.expected=JSON.stringify(p);
