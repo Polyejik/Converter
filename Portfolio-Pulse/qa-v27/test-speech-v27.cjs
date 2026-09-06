@@ -1,0 +1,9 @@
+const fs=require('node:fs'),vm=require('node:vm'),assert=require('node:assert/strict');
+const text=fs.readFileSync(__dirname+'/../assets/secretary-v27.js','utf8');
+function fixture(){let instance,sent=[];class Speech{constructor(){instance=this}start(){}stop(){this.stopped=true}}const el={classList:{add(){},remove(){}},textContent:'',value:''};const x={window:{SpeechRecognition:Speech},recognition:null,input:'',voice:false,$:()=>el,tr:r=>r,en:()=>false,send:()=>sent.push(x.input),notify:()=>{}};vm.createContext(x);vm.runInContext(text.slice(text.indexOf('function stopVoice()'),text.indexOf('function close()')),x);return {x,sent,instance:()=>instance}}
+let n=0;const test=(title,fn)=>{fn();console.log('OK',title);n++};
+test('stop waits for final transcript before analysis',()=>{const a=fixture();a.x.startVoice();a.instance().onresult({results:[[{transcript:'данные задержаны'}]]});a.x.startVoice();assert(a.instance().stopped);assert.equal(a.sent.length,0);a.instance().onresult({results:[[{transcript:'данные задержаны две недели'}]]});a.instance().onend();assert.deepEqual(a.sent,['данные задержаны две недели'])});
+test('natural recognition end analyzes once',()=>{const a=fixture();a.x.startVoice();a.instance().onresult({results:[[{transcript:'обновление'}]]});a.instance().onend();a.instance().onend();assert.equal(a.sent.length,1)});
+test('closing voice does not apply or analyze',()=>{const a=fixture();a.x.startVoice();a.instance().onresult({results:[[{transcript:'неоконченный текст'}]]});a.x.stopVoice();a.instance().onend();assert.equal(a.sent.length,0)});
+test('recognition error never submits partial command',()=>{const a=fixture();a.x.startVoice();a.instance().onerror({error:'network'});a.instance().onend();assert.equal(a.sent.length,0)});
+console.log(`${n} speech lifecycle checks passed; simulated events, not a physical microphone test`);
