@@ -32,7 +32,7 @@ function route(text,pending){const t=clean(text);
  if(/(?:подготов|состав|draft|prepare).*(?:письм|email|напоминан)/.test(t))return 'emailDraft';
  if(/кто свобод|кого.*подключ|где.*люд|не хватает людей|загрузк|ресурс|capacity|overload|available.*(?:people|engineer)|staffing/.test(t)&&!/нужно|нужны|need|увелич|добав/.test(t))return 'capacity';
  if(/(?:покажи|какие|сколько|где|show|which|how much).*(?:платеж|поступлен|ден[ье]г|cash|payment|receiv)|деньги под риском|cash at risk/.test(t))return 'cash';
- if(/(?:что|какие).*(?:решени|важн|внимани)|приоритет|бриф|сводк|утренн|brief|priorit|decisions|attention|risk.*portfolio/.test(t))return 'brief';
+ if(/(?:что|какие).*(?:решени|важн|внимани)|приоритет|бриф|сводк|утренн|brief|priorit|decision|attention|risk.*portfolio/.test(t))return 'brief';
  if(/(?:заверш[еёе]н|заверши|закрой|закрыть|completed|complete project|close project|close.*job)/.test(t)&&!/(если|if |потом|later)/.test(t)&&(!/этап|оценк|геолог|отчет|stage|assessment|geology|report/.test(t)||/заверши.*проект|закрой.*проект|проект\s+заверш|complete project|project completed|close project/.test(t)))return 'status';
  if(/статус|приостанов|постав.*пауз|в работе|возобнов|status|on hold|resume|ждем|ожидаем|waiting|await/.test(t))return 'status';
  if(/открой|открыть|покажи проект|open project/.test(t))return 'open';
