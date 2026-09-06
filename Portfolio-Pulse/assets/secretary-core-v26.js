@@ -39,9 +39,9 @@ function route(text,pending){const t=clean(text);
  if(pending?.kind==='create'&&pending.question)return 'create';return 'note';
 }
 function statusOf(text){const t=clean(text);if(/заверш|закры|completed|complete|close/.test(t))return 'completed';if(/приостанов|пауз|on hold|paused/.test(t))return 'paused';if(/ждем|ожида|waiting|await/.test(t))return 'waiting';if(/в работе|возобнов|актив|in progress|active|resume/.test(t))return 'active';return ''}
-function operationalPatch(p,status,date){
+function operationalPatch(p,status,date,en=false){
  const patch={secretaryStatus:status,lastUpdated:date};
- if(status==='completed'){patch.stages=p.stages.map(s=>({...s,status:'done',actualEnd:s.actualEnd||date}));patch.currentStage=Math.max(0,p.stages.length-1)}
+ if(status==='completed'){patch.stages=p.stages.map(s=>({...s,status:'done',actualEnd:s.actualEnd||date}));patch.currentStage=Math.max(0,p.stages.length-1);patch.nextAction=en?'Review final documents and outstanding client payments.':'Проверить финальные документы и остаток расчётов с клиентом.'}
  if(status!=='completed'&&p.secretaryStatus==='completed')return null;
  return patch;
 }
