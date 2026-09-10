@@ -56,7 +56,7 @@ function parseTimesheet(text,ctx,actor,week){
  const unit=/месторожд|\bfields?\b/i.test(part)?'field':/отчет|отчёт|\breports?\b/i.test(part)?'report':'reservoir';
  const output=part.match(/(?:завершил[аи]?|оценил[аи]?|готов[ыа]?|completed|assessed|delivered)\s*(?:месторождени[еяй]|объект[аы]?|пласт[аы]?|fields?|reservoirs?|reports?)?\s*[«“"]([^»”"]+)[»”"]/i),negative=/не\s+(?:заверш|оцен|готов)|не\s+до\s+конца|планир|если|not\s+(?:yet\s+)?(?:completed|assessed|ready)|haven.t|didn.t|\bif\b|\bwill\b/i.test(part);
  const outputs=output&&!negative?[...part.slice(output.index).matchAll(/[«“"]([^»”"]+)[»”"]/g)].map(m=>m[1]):[];
- const note=part.trim().replace(/^[,\s.]+|[,\s.]+$/g,'');rows.push({memberId:actor.id,week,projectId:internal?'':p?.id||'',category,days,note,unit,outputs,status:'draft',source:'dictation',sourceText:part.trim(),needsProject:!internal&&!p,allocated,ambiguousOutput:!outputs.length&&!negative&&/оценил|завершил|completed|assessed/i.test(part)});
+ const note=part.trim().replace(/\s+(?:в|во|on)\s*$/i,'').replace(/^[,\s.]+|[,\s.]+$/g,'');rows.push({memberId:actor.id,week,projectId:internal?'':p?.id||'',category,days,note,unit,outputs,status:'draft',source:'dictation',sourceText:part.trim(),needsProject:!internal&&!p,allocated,ambiguousOutput:!outputs.length&&!negative&&/оценил|завершил|completed|assessed/i.test(part)});
  }}
  return {rows,issues};
 }

@@ -1,0 +1,11 @@
+const fs=require('node:fs'),vm=require('node:vm'),assert=require('node:assert/strict');
+const source=fs.readFileSync(__dirname+'/../assets/workforce-v28.js','utf8'),snippet=source.slice(source.indexOf('function stopVoice(){'),source.indexOf('function openBudget('));
+let n=0;function test(name,fn){fn();n++;console.log('PASS',name)}
+function setup(){const nodes=new Map();const el=k=>{if(!nodes.has(k))nodes.set(k,{value:'',textContent:'',classList:{add(){},remove(){}}});return nodes.get(k)};let latest,parsed=0,selected=0;
+class SR{constructor(){latest=this}start(){}stop(){this.stopped=true}abort(){this.aborted=true}}
+const context={window:{SpeechRecognition:SR},voiceSession:null,voiceText:'',profileText:'',modalKind:'dictation',en:()=>false,tr:(r)=>r,overlayRoot:{querySelectorAll:()=>[el('button')]},o$:el,B:()=>({}),C:{matchProfile:t=>t==='Cody Davis'?[{id:'cody'}]:[]},fillProfiles:()=>{},selectProfile:()=>selected++,parseDictation:()=>parsed++,toast:()=>{}};vm.createContext(context);vm.runInContext(snippet,context);return {c:context,sr:()=>latest,el,parsed:()=>parsed,selected:()=>selected}}
+test('manual stop waits for recognition end, then creates one preview',()=>{const s=setup();s.c.startVoice('dictation');s.sr().onresult({results:[Object.assign([{transcript:'Monday PP-002 eight hours'}],{isFinal:true})]});s.c.startVoice('dictation');assert.equal(s.parsed(),0);assert(s.sr().stopped);s.sr().onend();assert.equal(s.parsed(),1)});
+test('closing modal aborts recognition without a proposal',()=>{const s=setup();s.c.startVoice('dictation');s.c.stopVoice();s.sr().onend();assert(s.sr().aborted);assert.equal(s.parsed(),0)});
+test('microphone failure does not apply partial text',()=>{const s=setup();s.c.startVoice('dictation');s.sr().onresult({results:[Object.assign([{transcript:'eight hours'}],{isFinal:false})]});s.sr().onerror();s.sr().onend();assert.equal(s.parsed(),0)});
+test('unambiguous final profile name selects workspace once',()=>{const s=setup();s.c.modalKind='profiles';s.c.startVoice('profile');s.sr().onresult({results:[Object.assign([{transcript:'Cody Davis'}],{isFinal:true})]});s.sr().onend();assert.equal(s.selected(),1)});
+console.log(`${n} workforce speech lifecycle checks passed (simulated events)`);
