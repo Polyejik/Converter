@@ -50,4 +50,14 @@ The server is not deployed by this release. The checked-in config contains no se
 
 ## Browser verification
 
-Pending final verification of the published v30 preview. The baseline v29 was opened in the cloud browser during this audit; navigation, personal week and secretary loaded successfully. This section is updated after v30 publication verification.
+Published preview `ae00460` verified in a desktop Chromium cloud browser on 2026-09-24:
+
+- Overview displays the local-demo/no-server-synchronization boundary and role-neutral CEO greeting.
+- Personal week opens; text dictation of 8 hours without a day requests explicit day selection; selecting Thursday creates an 8-hour draft and 20% coverage.
+- Editing Thursday to 7.5 hours updates the day/week totals immediately; the draft survives page reload.
+- Secretary settings clearly report API and mailbox disconnected, with no API-key input.
+- Three synthetic emails group by subject code; the no-code email stays in review. Search narrows to GeoAlliance; explicit confirmation moves it into PP-002.
+- Inbox screenshot inspected: readable labels, sender/date, review state, project selection and actions within the scrollable panel. See [browser capture](inbox-desktop.jpg).
+- Collected error logs showed browser-extension metadata errors only, no application-origin error in the returned log sample.
+
+This is a focused desktop smoke check, not full mobile/accessibility/device certification. Live API, microphone hardware and actual email delivery remain unverified.
