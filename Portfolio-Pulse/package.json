@@ -1,0 +1,22 @@
+{
+  "name": "portfolio-pulse",
+  "private": true,
+  "version": "30.0.0",
+  "engines": {
+    "node": ">=24"
+  },
+  "scripts": {
+    "test": "node qa-v30/run.cjs",
+    "test:api": "node --test api/test/*.test.mjs",
+    "dev:api": "wrangler dev --config api/wrangler.jsonc",
+    "check:worker": "wrangler deploy --dry-run --config api/wrangler.jsonc --outdir /tmp/pulse-worker-build"
+  },
+  "dependencies": {
+    "jose": "^6.2.12",
+    "postal-mime": "^3.0.0"
+  },
+  "devDependencies": {
+    "jsdom": "^30.1.1",
+    "wrangler": "^4.137.0"
+  }
+}

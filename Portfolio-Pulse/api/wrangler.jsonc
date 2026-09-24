@@ -1,0 +1,21 @@
+{
+  "$schema": "../node_modules/wrangler/config-schema.json",
+  "name": "portfolio-pulse-ai",
+  "main": "src/worker.mjs",
+  "compatibility_date": "2026-09-24",
+  "workers_dev": false,
+  "vars": {
+    "ALLOWED_ORIGINS": "https://polyejik.github.io",
+    "ACCESS_TEAM_DOMAIN": "",
+    "ACCESS_AUD": "",
+    "OPENAI_TEXT_MODEL": "gpt-4.1-mini-2025-04-14",
+    "OPENAI_TRANSCRIBE_MODEL": "gpt-transcribe",
+    "AI_DAILY_LIMIT": "100"
+  },
+  "d1_databases": [{
+    "binding": "DB",
+    "database_name": "portfolio-pulse",
+    "database_id": "00000000-0000-0000-0000-000000000000",
+    "migrations_dir": "migrations"
+  }]
+}

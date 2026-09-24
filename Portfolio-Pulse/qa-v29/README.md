@@ -13,13 +13,13 @@
 - 37 workforce domain checks, including eight new HR/capacity/snapshot/access cases.
 - 43 secretary parsing, 4 application-state, 4 secretary speech and 4 workforce speech checks pass (speech uses simulated events).
 - 9 whole-app jsdom interaction checks: navigation, 40 rows, search reset, inline rate save, HR/absence save and reopen, specialist privacy, division privacy, EN switch, no runtime exceptions.
-- jsdom checks behavior, not real-browser layout. New version visual browser verification is still pending: the available browser cannot open localhost, and publication was blocked by automatic approval review.
+- jsdom checks behavior, not real-browser layout. At v29 release time visual verification was incomplete. v30 includes new browser verification and a repeatable test runner.
 
 Run domain tests: `node Portfolio-Pulse/qa-v29/test-people-v29.cjs`.
 The UI test requires jsdom on Node's module path: `node Portfolio-Pulse/qa-v29/test-ui-v29.cjs`.
 
 ## Deployment status
-Prepared locally. GitHub main publication was rejected by automatic approval review for lack of explicit publication authorization. No remote update is claimed.
+v29 was published with explicit user authorization in commit `2bd5d55f73812e5226fa621ee4e9742549951157`; GitHub Pages deployment succeeded. It is retained as a historical baseline.
 
 ## Limits
 Browser-local demonstration, not server-authenticated multiuser software. Roles control UI behavior; anyone controlling this browser can inspect local data. Do not treat role switching as secure authentication. DeepSeek is not connected. Billable cost is internal labor cost, not invoiced revenue.
