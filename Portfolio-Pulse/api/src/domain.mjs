@@ -50,11 +50,12 @@ export function validateClassification(value, mail, projects) {
       !Array.isArray(value.evidence) || value.evidence.length > 5 || value.evidence.some(s => typeof s !== 'string' || s.length > 500) ||
       !(value.projectId === null || projects.some(p => p.id === value.projectId))) fail(502, 'invalid_ai_output');
   const match = subjectMatch(mail.subject, projects);
-  const projectId = match.kind === 'code' ? match.project.id : match.kind === 'unmatched' || value.confidence < 0.7 ? null : value.projectId;
   const source = `${mail.subject}\n${mail.body}`;
+  const evidence = value.evidence.filter(s => s.trim() && source.includes(s));
+  const projectId = match.kind === 'code' ? match.project.id : match.kind === 'unmatched' || value.confidence < 0.7 || !evidence.length ? null : value.projectId;
   return { ...value, projectId, match: match.kind, confidence: match.kind === 'code' ? 1 : value.confidence,
-    evidence: value.evidence.filter(s => source.includes(s)), needsReview: true,
-    reviewReason: match.kind === 'unmatched' ? 'unknown_or_multiple_codes' : match.kind === 'code' ? 'confirm_classification' : 'context_match' };
+    evidence, needsReview: true,
+    reviewReason: match.kind === 'unmatched' ? 'unknown_or_multiple_codes' : match.kind === 'code' ? 'confirm_classification' : !evidence.length ? 'missing_evidence' : 'context_match' };
 }
 export function validateTime(value, projects, week, memberId) {
   if (!value || !Array.isArray(value.entries) || value.entries.length > 30 || !Array.isArray(value.questions) || value.questions.length > 20 || value.questions.some(s => typeof s !== 'string' || s.length > 1000)) fail(502, 'invalid_ai_output');

@@ -16,7 +16,9 @@ test('unknown or multiple explicit codes never fall back to AI guesses',()=>{
 test('foreign project IDs, invalid categories and fabricated evidence are rejected or stripped',()=>{
   assert.throws(()=>validateClassification({...classification,projectId:'foreign'},{subject:'',body:'Late data'},projects),/invalid_ai_output/);
   assert.throws(()=>validateClassification({...classification,category:'delete'},{subject:'',body:'Late data'},projects),/invalid_ai_output/);
-  assert.deepEqual(validateClassification(classification,{subject:'',body:'No such evidence'},projects).evidence,[]);
+  const ungrounded=validateClassification(classification,{subject:'',body:'No such evidence'},projects);
+  assert.deepEqual(ungrounded.evidence,[]);assert.equal(ungrounded.projectId,null);assert.equal(ungrounded.reviewReason,'missing_evidence');
+  assert.equal(validateClassification(classification,{subject:'[PP-001] Update',body:'No such evidence'},projects).projectId,'p1');
 });
 test('missing day is a review field; missing hours are not fabricated',()=>{
   const out=validateTime({entries:[{projectId:'p1',date:null,hours:4,category:'billable',note:'Analysis'},{projectId:'p1',date:null,hours:null,category:'billable',note:'Unclear time'}],questions:[]},projects,week,'u1');
