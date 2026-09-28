@@ -44,6 +44,7 @@ Limits: 20,000 text characters, 500 subject characters, 30 proposed time rows, 8
 - D1 updates use optimistic versions and atomic update/audit batches. Native SQLite integration tests verify these SQL statements. A live Cloudflare deployment, edge Access policy and backup/restore remain deployment acceptance checks.
 - Incoming emails are not automatically sent to OpenAI. An authorized user explicitly requests classification. Quarantine is not malware scanning; attachments are ignored, and HTML is never rendered.
 - Classification and time extraction use no model tools. They accept only server-known project IDs. Structured output is validated again before reaching the client. Model confidence is not calibrated probability.
+- A context-based project suggestion is preselected only with a verbatim excerpt verified against the email subject/body. Missing or fabricated excerpts leave the project for manual choice; an explicit subject code is checked deterministically. The UI shows the verified excerpts before confirmation.
 - Before production: complete the common project/employee database migration, source freshness indicators, per-tenant budget monitoring, storage retention, backup restore test, accessibility/mobile checks on target devices and real RU/EN evals.
 
 ## Official references checked for this implementation
