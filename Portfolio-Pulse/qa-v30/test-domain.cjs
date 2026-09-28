@@ -1,5 +1,5 @@
 const assert=require('node:assert/strict'),fs=require('node:fs'),vm=require('node:vm'),C=require('../assets/workforce-core-v30.js');
-const app=fs.readFileSync(__dirname+'/../assets/app-v30.js','utf8');
+const app=fs.readFileSync(__dirname+'/../assets/app-v31.js','utf8');
 const fixture=vm.runInNewContext(app.slice(app.indexOf('var Y="2026'),app.indexOf(',jr=({'))+';({projects:fs(),team:ce})');
 const ctx={...JSON.parse(JSON.stringify(fixture)),managers:{international:{memberId:'geologist-10',name:'Olga N. Moskvina',division:'international'},americas:{memberId:'engineer-13',name:'Michael Connolly',division:'americas'},advisory:{memberId:'analyst-5',name:'Kyla M. Kossum',division:'advisory'}},personaNames:{ceo:'J. Craig Ruhs',accountant:'Daniel J. Salzman',contracts:'Kyla M. Kossum',coordinator:'Mariia Bychina'},role:'ceo'};
 let total=0;function test(name,fn){fn();total++;console.log('PASS',name)}

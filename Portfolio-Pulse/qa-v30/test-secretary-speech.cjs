@@ -1,5 +1,5 @@
 const fs=require('node:fs'),vm=require('node:vm'),assert=require('node:assert/strict');
-const text=fs.readFileSync(__dirname+'/../assets/secretary-v30.js','utf8');
+const text=fs.readFileSync(__dirname+'/../assets/secretary-v31.js','utf8');
 function fixture(){let instance,sent=[];class Speech{constructor(){instance=this}start(){}stop(){this.stopped=true}}const el={classList:{add(){},remove(){}},textContent:'',value:''};const x={window:{SpeechRecognition:Speech},recognition:null,input:'',voice:false,$:()=>el,tr:r=>r,en:()=>false,send:()=>sent.push(x.input),notify:()=>{}};vm.createContext(x);vm.runInContext(text.slice(text.indexOf('function stopVoice()'),text.indexOf('function close()')),x);return {x,sent,instance:()=>instance}}
 let n=0;const test=(title,fn)=>{fn();console.log('OK',title);n++};
 test('stop waits for final transcript before analysis',()=>{const a=fixture();a.x.startVoice();a.instance().onresult({results:[[{transcript:'данные задержаны'}]]});a.x.startVoice();assert(a.instance().stopped);assert.equal(a.sent.length,0);a.instance().onresult({results:[[{transcript:'данные задержаны две недели'}]]});a.instance().onend();assert.deepEqual(a.sent,['данные задержаны две недели'])});

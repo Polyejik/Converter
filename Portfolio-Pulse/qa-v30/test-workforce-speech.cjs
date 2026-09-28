@@ -1,5 +1,5 @@
 const fs=require('node:fs'),vm=require('node:vm'),assert=require('node:assert/strict');
-const source=fs.readFileSync(__dirname+'/../assets/workforce-v30.js','utf8'),snippet=source.slice(source.indexOf('function stopVoice(){'),source.indexOf('function openBudget('));
+const source=fs.readFileSync(__dirname+'/../assets/workforce-v31.js','utf8'),snippet=source.slice(source.indexOf('function stopVoice(){'),source.indexOf('function openBudget('));
 let n=0;function test(name,fn){fn();n++;console.log('PASS',name)}
 function setup(){const nodes=new Map();const el=k=>{if(!nodes.has(k))nodes.set(k,{value:'',textContent:'',classList:{add(){},remove(){}}});return nodes.get(k)};let latest,parsed=0,selected=0;
 class SR{constructor(){latest=this}start(){}stop(){this.stopped=true}abort(){this.aborted=true}}
