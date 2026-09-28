@@ -24,6 +24,9 @@ replace('y=e.stages.map((b,C)=>C===e.currentStage?{...b,status:c,forecastEnd:u||
         'y=Hd(e,e.currentStage,"forecast","end",re(u,o.forecastEnd)).stages.map((b,C)=>C===e.currentStage?{...b,status:c,comment:m}:b),S={...e,stages:y,forecastEnd:y.at(-1).forecastEnd,manualRisk:h,nextAction:p,nextDue:N}')
 replace('let C=e.stages.map((L,q)=>q===e.currentStage?{...L,status:c,forecastEnd:u,actualEnd:c==="done"?u:L.actualEnd,comment:m}:L),k=e.currentStage;',
         'let C=y.map((L,q)=>q===e.currentStage?{...L,actualEnd:c==="done"?u:L.actualEnd}:L),k=e.currentStage;')
+replace('if(!s||i===0)return e;', 'if(!s)return e;')
+replace('A=Math.max(0,re(y[c],S[r])),D=G(x[r],A)',
+        'A=Math.max(0,re(y[c],S[r]),a==="forecast"?re(y.planStart,S.planEnd):0),D=G(x[r],A)')
 
 # Division is a project property, chosen explicitly. Country sets a useful default.
 replace('jr=({client:e,name:t,country:a,coordinatorId:n,start:i,contractAmount:o,lang:s})=>',
