@@ -7,3 +7,5 @@
 - `PULSE_UI_HTML=preview-v32.html node qa-v30/test-ui.cjs` checks the new affordances and existing role flows. `npm test` checks the standard UI, domain, API and simulated recording lifecycle.
 
 The public demo still lacks a configured server and live microphone hardware validation. No real mailbox or confidential production data was used.
+
+Published Pages browser check: the 376 px content viewport opens the Personnel table, which scrolls horizontally while preserving the employee name; the compact secretary control measures 52 px and has an accessible name. `mobile-personnel.jpg` captures the initial narrow view. Physical phone and microphone permission prompts were not exercised.
