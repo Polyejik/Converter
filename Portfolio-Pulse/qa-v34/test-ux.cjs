@@ -11,6 +11,7 @@ const role=async value=>{const s=w.document.querySelector('.role-control select'
  await new Promise(r=>w.addEventListener('load',r));await delay();
  const projects=w.PPSecretaryBridge.projects;
  assert(projects.every(p=>p.stages.every(s=>s.status!=='done'||s.actualEnd<=w.PPSecretaryBridge.date)));
+ assert(projects.every(p=>p.stages.every(s=>!['inProgress','sent'].includes(s.status)||s.forecastStart<=w.PPSecretaryBridge.date)));
  assert(projects.some(p=>p.stages.some(s=>s.status==='notStarted'&&s.forecastEnd>w.PPSecretaryBridge.date)));
  console.log('PASS historical demo has no completed future stage');
  click('Портфель');await delay();
