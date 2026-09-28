@@ -20,3 +20,6 @@
 .professional-pool .pool-filters label { display: grid; gap: 5px; color: var(--ink-500); font-size: 12px; }
 .professional-pool .pool-filters label select { max-width: 290px; }
 @media (max-width: 700px) { .professional-pool .pool-filters label select { max-width: none; } }
+.baseline-caution { max-width: 240px; color: #8b4d18; font-size: 12px; line-height: 1.35; }
+.payment-stage-alert { margin: 0 24px 16px; padding: 11px 14px; border: 1px solid #e8c58d; border-radius: 10px; background: #fff8e9; color: #744616; font-size: 13px; }
+.assignment-stage-select { display: block; width: 100%; margin-top: 4px; padding: 2px 18px 2px 4px; border: 1px solid var(--line); border-radius: 6px; background: #fff; color: var(--ink-700); font-size: 11px; }
