@@ -7,3 +7,5 @@
 - `npm test` and `npm run check:worker` passed on 2026-09-28. The latter is a build dry run, not a deployment.
 
 The Pages demo has no server connection or OpenAI key. Real model quality, mailbox ingress and Cloudflare Access/D1 deployment remain unverified.
+
+Published-browser check on the canonical v33 page: a local demo mail without a project code shows a tentative PP-002 hint and an empty selection before confirmation. `inbox-review.jpg` records the visible state. Evidence excerpts were verified in the synthetic API/UI test, not against a live model.
