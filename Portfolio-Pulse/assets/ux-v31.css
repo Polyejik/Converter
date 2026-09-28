@@ -16,3 +16,7 @@
   .main-content[data-role="ceo"][data-view="overview"] .brief-decision-card,
   .main-content[data-role="ceo"][data-view="overview"] .brief-copy {grid-column: 1; grid-row: auto;}
 }
+.professional-pool .pool-filters { flex-wrap: wrap; align-items: end; }
+.professional-pool .pool-filters label { display: grid; gap: 5px; color: var(--ink-500); font-size: 12px; }
+.professional-pool .pool-filters label select { max-width: 290px; }
+@media (max-width: 700px) { .professional-pool .pool-filters label select { max-width: none; } }
