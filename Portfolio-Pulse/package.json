@@ -6,7 +6,7 @@
     "node": ">=24"
   },
   "scripts": {
-    "test": "node qa-v30/run.cjs && node qa-v34/test-ux.cjs && node qa-v35/test-lifecycle.cjs",
+    "test": "node qa-v30/run.cjs && node qa-v34/test-ux.cjs && node qa-v35/test-lifecycle.cjs && node qa-v37/test-timesheet.cjs",
     "test:api": "node --test api/test/*.test.mjs",
     "dev:api": "wrangler dev --config api/wrangler.jsonc",
     "check:worker": "wrangler deploy --dry-run --config api/wrangler.jsonc --outdir /tmp/pulse-worker-build"
