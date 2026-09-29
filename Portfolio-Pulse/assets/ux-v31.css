@@ -26,3 +26,4 @@
 /* v37: workspace content, without the sidebar slogan. */
 .sidebar-manifesto{display:none!important}
 .sidebar::after{display:none!important}
+.archive-reason-fields{display:grid;grid-template-columns:1fr 1.5fr;gap:14px;margin:18px 0}.archive-reason-fields label{display:grid;gap:7px;font-size:13px;font-weight:650;color:#334a41}.archive-reason-fields select,.archive-reason-fields textarea{width:100%;padding:11px 12px;border:1px solid #cbd8cb;border-radius:10px;background:#fff;color:#173d33;font:inherit}.archive-reason-fields textarea{resize:vertical;min-height:90px}@media(max-width:680px){.archive-reason-fields{grid-template-columns:1fr}}
