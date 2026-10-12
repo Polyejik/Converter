@@ -29,6 +29,10 @@
     '.hr-name,.hr-name strong,.hr-name b{color:#10231e;}',
     '.primary,.dialog .primary,button.primary{background:#10231e !important;color:#ffffff !important;}',
     '.tabs .active,.steps .active,.step.active,[role=tab][aria-selected="true"]{background:#10231e;color:#ffffff;}',
+    /* мелкие подписи внутри компонентов: тот же тон, что в остальном интерфейсе */
+    'small,summary{color:#5f706a !important;}',
+    'th,[role=columnheader]{color:#4c5b55 !important;}',
+    'small a,summary a{color:inherit;}',
     /* плавающая кнопка «Секретарь» — тоже чернила */
     '#launch,.launch,button#launch{background:#10231e !important;color:#ffffff !important;border-color:#10231e !important;}'
   ].join('');

@@ -125,7 +125,8 @@ button,input,select,textarea{font-size:13px;}
   svg{max-width:100%;}
   .chart-shell svg{min-width:560px;}
   /* подписи в нижней навигации: на телефоне тоже не мельче 12px */
-  .bottom-nav span,.bottom-nav small,.bottom-nav b,.bottom-nav strong{font-size:12px;}
+  .bottom-nav span,.bottom-nav small,.bottom-nav b,.bottom-nav strong,
+  .mobile-nav span,.mobile-nav small,.mobile-nav b,.mobile-nav strong{font-size:12px;}
   /* поля ввода: 16px предотвращает автозум на iOS */
   input,select,textarea{font-size:16px;}
   /* плотность: чуть больше воздуха в списках */
@@ -907,6 +908,9 @@ button,input,select,textarea{font-size:13px;}
 .secondary-button{background:var(--surface);color:var(--ink-800);border-color:var(--line);}
 .toolbar-alerts b,.toolbar-alerts strong{background:var(--ink-950);color:#fff;}
 .demo-footer{background:transparent;border-top:1px solid var(--line-soft);color:var(--color-text-muted);}
+
+/* ── таблицы: заголовки столбцов читаются (было 4.31 против белого) ── */
+table th,.data-table th,[role=columnheader]{color:var(--ink-700);}
 
 /* ── карточки: одинаковая геометрия, крупное число, тихая подпись ── */
 .kpi-grid{gap:14px;}
