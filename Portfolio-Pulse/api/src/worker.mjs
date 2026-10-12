@@ -25,7 +25,7 @@ async function json(request) {
 }
 function version(data, mail) { if (!Number.isInteger(data.version) || data.version !== mail.version) fail(409, 'stale_mail'); }
 
-// Dependency injection is used by tests only. The exported Worker always verifies Access JWTs.
+// Dependency injection is used by tests only. Access JWTs are required unless DEV_AUTH is exactly "1".
 export function createHandler({ auth = authenticate, aiFactory = createOpenAI } = {}) {
   return async function handle(request, env) {
     const requestId = crypto.randomUUID(), origin = request.headers.get('origin'), url = new URL(request.url);
@@ -39,7 +39,7 @@ export function createHandler({ auth = authenticate, aiFactory = createOpenAI } 
       if (request.method !== 'GET' && request.method !== 'POST') fail(405, 'method_not_allowed');
       if (request.method === 'POST' && !origin) fail(403, 'origin_required');
       const user = await auth(request, env), projects = await projectsFor(env.DB, user), ai = aiFactory(env);
-      if (request.method === 'GET' && url.pathname === '/api/session') return respond({ user:{ id:user.id,name:user.name,role:user.role }, projects, aiConfigured:!!env.OPENAI_API_KEY, storage:'local-ledger-server-inbox' });
+      if (request.method === 'GET' && url.pathname === '/api/session') return respond({ user:{ id:user.id,name:user.name,role:user.role }, projects, aiConfigured:!!env.OPENAI_API_KEY, storage:'local-ledger-server-inbox', ...(user.devMode === true ? { devMode:true } : {}) });
       if (request.method === 'GET' && url.pathname === '/api/inbox') {
         // Pagination is by received time plus id; no unbounded mailbox export.
         const before = url.searchParams.get('before') || '9999', cursor = url.searchParams.get('cursor') || 'zzzz';

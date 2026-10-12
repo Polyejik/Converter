@@ -17,9 +17,35 @@ The published GitHub Pages app remains usable without a server. v30 contains an 
 
 The existing public Pages demo is not a place to enter confidential production data. Configure production hosting, access and data retention before a real client pilot. A Gmail/Outlook OAuth connector is not installed by this code; the prepared ingress is a dedicated Cloudflare email address plus manual paste.
 
-## Contract
+## Local development authentication
 
-All POST requests require an allowed Origin and a valid Access session. The server derives tenant, author and accessible projects from its own database.
+**DEV_AUTH must be absent in production**, including deployed vars and secrets. Only the exact string `"1"` enables the local authentication bypass; unset and other values retain Access authentication, including `503 auth_not_configured` when Access is not configured. The checked-in vars omit DEV_AUTH.
+
+Local auth resolves the active `ceo-1` user in tenant `demo` from D1. Name, role, tenant and project access come from the database; caller identity headers are ignored. Missing or inactive users receive `403 access_denied`. Only a dev-auth session includes `devMode:true`. Origin restrictions remain enforced. This bypass grants access without a signed Access session, so use it only for local development with demo data.
+
+From the repository root, these commands migrate and seed a disposable local database and start Wrangler. Keep this terminal open; exiting cleans up the temporary state. The existing demo database is untouched.
+
+```bash
+PULSE_DEV_STATE=$(mktemp -d)
+trap 'rm -rf "$PULSE_DEV_STATE"' EXIT
+npx wrangler d1 migrations apply portfolio-pulse --local --config api/wrangler.jsonc --persist-to "$PULSE_DEV_STATE"
+npx wrangler d1 execute portfolio-pulse --local --config api/wrangler.jsonc --persist-to "$PULSE_DEV_STATE" --file api/seed/0001_demo.sql
+npx wrangler dev --local --config api/wrangler.jsonc --persist-to "$PULSE_DEV_STATE" --ip 127.0.0.1 --port 8787 --var DEV_AUTH:1 --var ALLOWED_ORIGINS:http://localhost:5173
+```
+
+In another terminal:
+
+```bash
+curl -i http://127.0.0.1:8787/api/session -H 'Origin: http://localhost:5173'
+```
+
+Expect the seeded database user and `devMode:true`. Restart Wrangler without `--var DEV_AUTH:1` to check `503 auth_not_configured` with the default empty Access settings. No OpenAI key is needed for the session endpoint.
+
+`npm run test:api` includes `api/test/dev-auth.test.mjs`, which bundles the actual Worker and runs it in Miniflare/workerd with real persisted D1. It copies migrations and writes its fixture under a unique temporary directory, uses an isolated `demo` tenant plus a separate tenant for boundary checks, and disposes the runtime and directory after testing.
+
+## API contract
+
+All POST requests require an allowed Origin and a valid Access session (or the explicitly enabled local dev auth described above). The server derives tenant, author and accessible projects from its own database.
 
 | Method / path | Input | Result |
 |---|---|---|

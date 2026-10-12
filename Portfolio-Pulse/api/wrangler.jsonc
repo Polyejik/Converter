@@ -4,6 +4,7 @@
   "main": "src/worker.mjs",
   "compatibility_date": "2026-09-24",
   "workers_dev": false,
+  // DEV_AUTH is intentionally absent. Enable only via a local CLI override.
   "vars": {
     "ALLOWED_ORIGINS": "https://polyejik.github.io",
     "ACCESS_TEAM_DOMAIN": "",

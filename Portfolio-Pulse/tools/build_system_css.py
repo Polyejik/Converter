@@ -547,6 +547,15 @@ def composition_layer():
 .leadership-stage-head{background-image:none;background:var(--surface);}
 .panel,.card{background:var(--surface);border-color:var(--line);}
 
+/* ── «Персонал»: сначала управление, реестр ставок — внизу и в рамке ── */
+.main-content[data-view="personnel"] .view-content{display:flex;flex-direction:column;gap:16px;}
+.main-content[data-view="personnel"] .view-content > div:first-child{order:9;max-height:460px;overflow:auto;
+  border:1px solid var(--line);border-radius:var(--radius-md);background:var(--surface);}
+.main-content[data-view="personnel"] .personnel-hero{order:1;}
+.main-content[data-view="personnel"] .personnel-leadership{order:2;}
+.main-content[data-view="personnel"] .personnel-insight-grid{order:3;}
+.main-content[data-view="personnel"] .panel.personnel-directory{order:4;}
+
 /* ── состав Обзора: деньги и решения первыми, декор вниз ────────── */
 @media (min-width:1181px){
   .dashboard-bento{

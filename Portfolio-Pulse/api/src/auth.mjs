@@ -2,6 +2,13 @@ import { createRemoteJWKSet, jwtVerify } from 'jose';
 import { fail } from './domain.mjs';
 const keys = new Map();
 export async function authenticate(request, env) {
+  if (env.DEV_AUTH === '1') {
+    if (!env.DB) fail(503, 'auth_not_configured');
+    const user = await env.DB.prepare('SELECT * FROM users WHERE tenant_id = ? AND id = ? AND active = 1')
+      .bind('demo', 'ceo-1').first();
+    if (!user) fail(403, 'access_denied');
+    return { ...user, devMode: true };
+  }
   if (!env.DB || !env.ACCESS_TEAM_DOMAIN || !env.ACCESS_AUD) fail(503, 'auth_not_configured');
   const issuer = env.ACCESS_TEAM_DOMAIN.replace(/\/$/, '');
   if (!/^https:\/\/[a-z0-9-]+\.cloudflareaccess\.com$/i.test(issuer)) fail(503, 'auth_not_configured');
