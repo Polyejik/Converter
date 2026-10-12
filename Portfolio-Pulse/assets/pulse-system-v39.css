@@ -90,6 +90,13 @@ button,input,select,textarea{font-size:13px;}
 :focus-visible{outline:2px solid var(--data-info);outline-offset:2px;}
 @media (prefers-reduced-motion: reduce){*{animation-duration:.01ms !important;transition-duration:.01ms !important;}}
 
+/* ── иконки: одна сетка 24×24, один штрих, один смысловой акцент ── */
+.ui-icon{width:16px;height:16px;stroke-width:1.6;transform:none;color:var(--ink-600);}
+.side-nav .ui-icon,.bottom-nav .ui-icon,.kpi-card .ui-icon,.panel-head .ui-icon,
+.tab .ui-icon,.view-switch .ui-icon,.toolbar .ui-icon,.card .ui-icon{width:20px;height:20px;}
+.ui-icon .icon-accent{opacity:1;}
+.side-nav button.active .ui-icon{color:currentColor;}
+
 /* ── мобильный слой: телефон первым ─────────────────────────────── */
 @media (max-width:760px){
   .app-shell,.main-content,.panel,.card{min-width:0;max-width:100%;}
@@ -775,6 +782,8 @@ button,input,select,textarea{font-size:13px;}
 @(max-width: 700px){.division-attention-panel button strong{font-size:12px}}
 @(max-width: 700px){.division-attention-panel button small{font-size:12px}}
 @(max-width: 700px){.map-zoom-controls button{border-radius:8px}}
+.kpi-signal .ui-icon,.brief-decision-card .ui-icon,.sidebar-manifesto .ui-icon{stroke-width:1.6}
+.icon-button .ui-icon,.mobile-head-actions .ui-icon{stroke-width:1.6}
 /* Confident American information scale without relaxing dashboard density. */
 .role-control label,
 .page-date,

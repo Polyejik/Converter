@@ -340,7 +340,7 @@ def norm_text_color(v):
 def build_overrides():
     typo, geometry, shadow, zfix = [], [], [], []
     stats = {"size_rules": 0, "radius_rules": 0, "shadow_rules": 0, "z_rules": 0,
-             "color_rules": 0, "important": 0}
+             "color_rules": 0, "important": 0, "icon_stroke_rules": 0, "icon_size_rules": 0}
     seen = set()
     for fname in SOURCES:
         css = open(os.path.join(ASSETS, fname), encoding="utf-8", errors="ignore").read()
@@ -389,6 +389,18 @@ def build_overrides():
                         stats["color_rules"] += 1
                         if imp:
                             stats["important"] += 1
+                        continue
+                # иконки: единый штрих и единый минимальный размер в интерфейсе
+                if "ui-icon" in selector and prop == "stroke-width":
+                    if value.strip() != "1.6":
+                        out.append(f"stroke-width:1.6{imp}")
+                        stats["icon_stroke_rules"] += 1
+                        continue
+                if "ui-icon" in selector and prop in ("width", "height"):
+                    v = num(value)
+                    if v and v < 16:
+                        out.append(f"{prop}:16px{imp}")
+                        stats["icon_size_rules"] += 1
                         continue
             if not out:
                 continue
@@ -448,7 +460,7 @@ def mobile_layer():
 
 
 def numeric_layer():
-    """Табличные цифры там, где числа сравнивают по разрядам."""
+    """Табличные цифры там, где числа сравнивают по разрядам, и единый язык иконок."""
     sel = (".kpi-value,.kpi-number,.metric-value,.stat-value,.amount,.money,td,th,.gantt-cell,"
            ".bar-caption,.month-label,.timeline-label,.table td,.table th,[data-numeric]")
     return f"""{sel}{{font-variant-numeric:tabular-nums;font-feature-settings:'tnum' 1,'cv05' 1;}}
@@ -456,7 +468,14 @@ h1,h2,h3,h4,h5{{font-family:var(--font-sans);letter-spacing:-.015em;}}
 html,body,button,input,select,textarea{{font-family:var(--font-sans);}}
 button,input,select,textarea{{font-size:13px;}}
 :focus-visible{{outline:2px solid var(--data-info);outline-offset:2px;}}
-@media (prefers-reduced-motion: reduce){{*{{animation-duration:.01ms !important;transition-duration:.01ms !important;}}}}"""
+@media (prefers-reduced-motion: reduce){{*{{animation-duration:.01ms !important;transition-duration:.01ms !important;}}}}
+
+/* ── иконки: одна сетка 24×24, один штрих, один смысловой акцент ── */
+.ui-icon{{width:16px;height:16px;stroke-width:1.6;transform:none;color:var(--ink-600);}}
+.side-nav .ui-icon,.bottom-nav .ui-icon,.kpi-card .ui-icon,.panel-head .ui-icon,
+.tab .ui-icon,.view-switch .ui-icon,.toolbar .ui-icon,.card .ui-icon{{width:20px;height:20px;}}
+.ui-icon .icon-accent{{opacity:1;}}
+.side-nav button.active .ui-icon{{color:currentColor;}}"""
 
 
 def main():
@@ -477,6 +496,7 @@ def main():
     print("Правок скруглений:", stats["radius_rules"])
     print("Правок теней:", stats["shadow_rules"])
     print("Правок z-index:", stats["z_rules"])
+    print("Иконки: штрих", stats["icon_stroke_rules"], "| размер", stats["icon_size_rules"])
 
 
 if __name__ == "__main__":

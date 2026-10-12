@@ -1,0 +1,106 @@
+{
+ "pulse": {
+  "shapes": 2,
+  "accent": true
+ },
+ "grid": {
+  "shapes": 4,
+  "accent": true
+ },
+ "folder": {
+  "shapes": 2,
+  "accent": true
+ },
+ "inbox": {
+  "shapes": 2,
+  "accent": true
+ },
+ "timeline": {
+  "shapes": 4,
+  "accent": true
+ },
+ "people": {
+  "shapes": 3,
+  "accent": true
+ },
+ "invoice": {
+  "shapes": 3,
+  "accent": true
+ },
+ "wallet": {
+  "shapes": 2,
+  "accent": true
+ },
+ "search": {
+  "shapes": 2,
+  "accent": true
+ },
+ "plus": {
+  "shapes": 1,
+  "accent": false
+ },
+ "arrow": {
+  "shapes": 1,
+  "accent": false
+ },
+ "check": {
+  "shapes": 1,
+  "accent": false
+ },
+ "alert": {
+  "shapes": 3,
+  "accent": true
+ },
+ "clock": {
+  "shapes": 2,
+  "accent": true
+ },
+ "globe": {
+  "shapes": 2,
+  "accent": true
+ },
+ "close": {
+  "shapes": 1,
+  "accent": false
+ },
+ "download": {
+  "shapes": 2,
+  "accent": true
+ },
+ "settings": {
+  "shapes": 3,
+  "accent": true
+ },
+ "lock": {
+  "shapes": 2,
+  "accent": true
+ },
+ "unlock": {
+  "shapes": 2,
+  "accent": true
+ },
+ "chevron": {
+  "shapes": 1,
+  "accent": false
+ },
+ "calendar": {
+  "shapes": 3,
+  "accent": true
+ },
+ "edit": {
+  "shapes": 2,
+  "accent": true
+ },
+ "undo": {
+  "shapes": 2,
+  "accent": true
+ },
+ "link": {
+  "shapes": 2,
+  "accent": true
+ },
+ "parallel": {
+  "shapes": 2,
+  "accent": true
+ }
+}
