@@ -340,7 +340,7 @@ def norm_text_color(v):
 def build_overrides():
     typo, geometry, shadow, zfix = [], [], [], []
     stats = {"size_rules": 0, "radius_rules": 0, "shadow_rules": 0, "z_rules": 0,
-             "color_rules": 0, "important": 0, "icon_stroke_rules": 0, "icon_size_rules": 0}
+             "color_rules": 0, "important": 0, "icon_stroke_rules": 0, "icon_size_rules": 0, "bg_rules": 0, "gradient_rules": 0}
     seen = set()
     for fname in SOURCES:
         css = open(os.path.join(ASSETS, fname), encoding="utf-8", errors="ignore").read()
@@ -390,6 +390,35 @@ def build_overrides():
                         if imp:
                             stats["important"] += 1
                         continue
+                # тёплый кремовый фон: убираем песочный оттенок, остаётся бумага
+                if prop in ("background-color", "background"):
+                    rgb = parse_color(value)
+                    if rgb:
+                        r0, g0, b0 = rgb
+                        if r0 > 235 and g0 > 228 and (r0 - b0) <= 14 and b0 > 195:
+                            out.append(f"{prop}:var({'--surface' if r0 >= 250 else '--canvas-2'}){imp}")
+                            stats["bg_rules"] += 1
+                            continue
+                # градиенты: убираем зелёный хром и песочные подложки, оставляем фотографии
+                if prop in ("background-image", "background") and "linear-gradient" in value:
+                    stops = [(int(a), int(b), int(c)) for a, b, c in
+                             re.findall(r"rgba?\(\s*(\d+)\s*,\s*(\d+)\s*,\s*(\d+)", value)]
+                    stops += [hex2rgb(h) for h in re.findall(r"#([0-9a-fA-F]{3,6})\b", value)
+                              if len(h) in (3, 6)]
+                    if stops:
+                        green = any(g > r + 20 and g < 140 and r < 70 for r, g, b in stops)
+                        warm = all(r > 232 and (r - b) <= 16 and b > 195 for r, g, b in stops)
+                        if green or warm:
+                            out.append(f"background-image:none{imp}")
+                            stats["gradient_rules"] += 1
+                            if warm:
+                                out.append(f"background-color:var(--surface){imp}")
+                            elif green:
+                                # зелёная заливка органа управления становится чернилами
+                                out.append(f"background-color:var(--ink-950){imp}")
+                                if re.search(r"button|cta|fab|primary|trigger|chip", selector, re.I):
+                                    out.append(f"color:#fff{imp}")
+                            continue
                 # иконки: единый штрих и единый минимальный размер в интерфейсе
                 if "ui-icon" in selector and prop == "stroke-width":
                     if value.strip() != "1.6":
@@ -447,6 +476,8 @@ def mobile_layer():
   .capacity-row,.capacity-months{min-width:820px;}
   svg{max-width:100%;}
   .chart-shell svg{min-width:560px;}
+  /* подписи в нижней навигации: на телефоне тоже не мельче 12px */
+  .bottom-nav span,.bottom-nav small,.bottom-nav b,.bottom-nav strong{font-size:12px;}
   /* поля ввода: 16px предотвращает автозум на iOS */
   input,select,textarea{font-size:16px;}
   /* плотность: чуть больше воздуха в списках */
@@ -478,6 +509,59 @@ button,input,select,textarea{{font-size:13px;}}
 .side-nav button.active .ui-icon{{color:currentColor;}}"""
 
 
+def composition_layer():
+    """Композиция: нейтральный хром, доминирующий блок, воздух.
+
+    Цвет уходит из интерфейса и остаётся только в данных и изображениях.
+    Перестановка блоков Обзора — через grid-template-areas, поэтому она
+    ограничена десктопной шириной: иначе перебила бы мобильные раскладки.
+    """
+    return """
+/* ── хром: чернила и бумага вместо кремового и зелёного ──────────── */
+.sidebar{background:var(--surface);border-right:1px solid var(--line);}
+.desktop-toolbar{background:var(--surface);border-bottom:1px solid var(--line-soft);}
+.page-header{background:transparent;}
+.side-nav button.active{background:var(--ink-950);color:#fff;}
+.side-nav button.active .ui-icon{color:#fff;}
+.primary-button{background:var(--ink-950);color:#fff;border-color:var(--ink-950);}
+.primary-button:hover{background:var(--ink-800);border-color:var(--ink-800);}
+.secondary-button{background:var(--surface);color:var(--ink-800);border-color:var(--line);}
+.toolbar-alerts b,.toolbar-alerts strong{background:var(--ink-950);color:#fff;}
+.demo-footer{background:transparent;border-top:1px solid var(--line-soft);color:var(--color-text-muted);}
+
+/* ── карточки: одинаковая геометрия, крупное число, тихая подпись ── */
+.kpi-grid{gap:14px;}
+.kpi-card{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius-md);
+  box-shadow:var(--elev-1);padding:16px 18px;}
+.kpi-card strong{font-size:34px;font-weight:600;letter-spacing:-.025em;line-height:1.1;}
+.kpi-label{font-size:12px;font-weight:600;color:var(--color-text-muted);letter-spacing:.05em;}
+.kpi-meta b{font-size:14px;}
+.kpi-delta{font-size:12px;color:var(--color-text-muted);}
+.kpi-signal{opacity:.9;}
+.brief-decision-card{background:var(--surface);border:1px solid var(--line);}
+.primary-button,.secondary-button,.brief-cta,.side-nav button.active,.bottom-nav button{background-image:none;}
+.brief-cta{background:var(--ink-950);color:#fff;}
+/* текст брифинга ложится на полупрозрачную бумагу: картинка видна, текст читается */
+.executive-brief{background:linear-gradient(90deg,rgba(255,255,255,.95),rgba(255,255,255,.86));
+  border-radius:var(--radius-md);padding:14px 16px;}
+.leadership-stage-head{background-image:none;background:var(--surface);}
+.panel,.card{background:var(--surface);border-color:var(--line);}
+
+/* ── состав Обзора: деньги и решения первыми, декор вниз ────────── */
+@media (min-width:1181px){
+  .dashboard-bento{
+    gap:16px;
+    grid-template-areas:
+      "cash cash cash cash cash cash cash cash health health health health"
+      "attention attention attention attention attention attention upcoming upcoming upcoming upcoming upcoming upcoming"
+      "capacity capacity capacity capacity capacity capacity capacity capacity capacity capacity capacity capacity";
+  }
+  .tutorial-trigger{display:none;}
+  .brief-decision-card{box-shadow:none;}
+}
+"""
+
+
 def main():
     overrides, stats = build_overrides()
     css = "\n".join([
@@ -487,6 +571,7 @@ def main():
         numeric_layer(),
         mobile_layer(),
         overrides,
+        composition_layer(),
         "",
     ])
     open(OUT, "w", encoding="utf-8").write(css)
@@ -497,6 +582,8 @@ def main():
     print("Правок теней:", stats["shadow_rules"])
     print("Правок z-index:", stats["z_rules"])
     print("Иконки: штрих", stats["icon_stroke_rules"], "| размер", stats["icon_size_rules"])
+    print("Тёплых кремовых фонов переведено в бумагу:", stats["bg_rules"])
+    print("Зелёных и песочных градиентов снято:", stats["gradient_rules"])
 
 
 if __name__ == "__main__":
