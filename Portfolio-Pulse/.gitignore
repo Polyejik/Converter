@@ -5,3 +5,4 @@ node_modules/
 !.env.example
 api/.dev.vars*
 coverage/
+assets/*.backup.js
